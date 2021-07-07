@@ -23,10 +23,11 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import NSObject_Rx
 
 class NSObjectRxViewController: UIViewController {
 
-   let bag = DisposeBag()
+//   let bag = DisposeBag()
 
    let button = UIButton(type: .system)
    let label = UILabel()
@@ -36,22 +37,22 @@ class NSObjectRxViewController: UIViewController {
 
       Observable.just("Hello")
          .subscribe { print($0) }
-         .disposed(by: bag)
+        .disposed(by: rx.disposeBag)
 
       button.rx.tap
          .map { "Hello" }
          .bind(to: label.rx.text)
-         .disposed(by: bag)
+        .disposed(by: rx.disposeBag)
    }
 }
 
-class MyClass {
-   let bag = DisposeBag()
+class MyClass: HasDisposeBag {
+//   let bag = DisposeBag()
 
    func doSomething() {
       Observable.just("Hello")
       .subscribe { print($0) }
-      .disposed(by: bag)
+        .disposed(by: disposeBag)
    }
 }
 
